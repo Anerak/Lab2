@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "nodo.h": "c",
+        "stdlib.h": "c",
+        "windows.h": "c"
+    }
+}

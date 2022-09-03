@@ -1,0 +1,4 @@
+rule cc
+    command = gcc $in -o $out
+
+build main: cc main.c
