@@ -5,7 +5,7 @@
 #include <string.h>
 
 nodo *cargarListaOrdenada(nodo *l);
-nodo *cortarLista(nodo *l, stConsumos c);
+nodo *insertarNodo(nodo *l, stConsumos c);
 
 int main()
 {
@@ -19,16 +19,18 @@ int main()
     // lista = agregarPrincipio(lista, crearNodo(consumoRandom()));
 
     // cargarListaOrdenada(lista);
-
-    // stConsumos cs[10];
-    // for (int i = 0; i < 10; i++)
+    // int v = 20;
+    // stConsumos cs[20];
+    // for (int i = 0; i < v; i++)
     // {
     //     cs[i] = consumoRandom();
+    //     mostrarConsumo(cs[i]);
     // }
-
-    // guardarDatos(cs, 10);
+    // guardarDatos(cs, v);
+    // lista = leerDatos(lista);
     // lista = leerDatos(lista);
     lista = cargarListaOrdenada(lista);
+    // printf("\n- - - - TERMINA LA CARGA - - - -\n");
     mostrarLista(lista);
 
     return 0;
@@ -44,62 +46,33 @@ nodo *cargarListaOrdenada(nodo *l)
     stConsumos c;
     while (fread(&c, sizeof(c), 1, a) > 0)
     {
+        // Cuando la lista esta vacía, le asignamos el primer nodo.
         if (l == NULL)
         {
-            printf("LISTA ES NULA\n");
-            mostrarConsumo(c);
             l = crearNodo(c);
             continue;
         }
 
-        // 4
-        // 1 3 . 5 7
-        // 4 < 1 -> no, al final entonces
-        // 4 deberia haber estado después del 3
-
-        // 1 2 3 4 5
-        // 4 < 2
-        // 4 < 3
-        // printf("--------\n");
-        // printf("Voy a ingresar este dato: %d\n", c.datosConsumidos);
-        // mostrarConsumo(c);
-        printf("---LISTA ANTES DE AGREGAR----\n");
-        mostrarLista(l);
-        printf("--------\n");
+        // Usando la propiedad datosConsumidos, ordenamos los nodos.
+        // Si la propiedad datosConsumidos del nodo a ingresar
+        // es menor al primer nodo en la lista, entonces lo agregamos al principio
         if (c.datosConsumidos < l->dato.datosConsumidos)
         {
-
             l = agregarPrincipio(l, crearNodo(c));
         }
-        else if (c.datosConsumidos > buscarUltimo(l)->dato.datosConsumidos)
+        // En caso de no ser menor, buscamos el último nodo en la lista
+        // comparamos si es menor al nodo a ingresar
+        // y agregamos este último al final de la lista.
+        else if (c.datosConsumidos > (buscarUltimo(l)->dato.datosConsumidos))
         {
             l = agregarFinal(l, crearNodo(c));
         }
+        // Por último, si el nodo a ingresar corresponde a un lugar dentro de la lista,
+        // usamos la función insertarNodo
         else
         {
-            l = cortarLista(l, c);
+            l = insertarNodo(l, c);
         }
-
-        // nodo *seg = l;
-        // while (seg->siguiente != NULL)
-        // {
-
-        //     else
-        //     {
-        //         seg = seg->siguiente;
-        //     }
-        // }
-        // if (seg->siguiente == NULL)
-        // {
-        //     if (c.datosConsumidos > seg->dato.datosConsumidos)
-        //     {
-        //         l = agregarFinal(l, crearNodo(c));
-        //     }
-        //     else
-        //     {
-        //         l = agregarPrincipio(l, crearNodo(c));
-        //     }
-        // }
     }
 
     fclose(a);
@@ -107,65 +80,35 @@ nodo *cargarListaOrdenada(nodo *l)
     return l;
 }
 
-nodo *cortarLista(nodo *l, stConsumos c)
+nodo *insertarNodo(nodo *l, stConsumos c)
 {
-    static int cantVeces = 0;
-    printf("\nESTA ES LA VEZ Nº%d QUE SE EJECUTA cortarLista\n", cantVeces);
-    cantVeces++;
     nodo *listaAuxiliar;
     listaAuxiliar = inicLista();
+
     if (l == NULL)
     {
-        printf("No deberia estar entrando a esta parte, why?\n");
         listaAuxiliar = agregarPrincipio(l, crearNodo(c));
     }
     else
     {
-        int i = 0;
         nodo *seg = l;
-        while (seg->siguiente != NULL)
+
+        // Mientras que el nodo actual sea menor al nodo que queremos ingresar
+        // lo guardamos en una lista auxiliar, para no perder los datos.
+        while (seg->dato.datosConsumidos < c.datosConsumidos)
         {
-            printf("NO ME ROMPI TODAVIA\n");
-            // (1) 2 3 4 9 <- 5
-            // 1 2 3 4 5 9
-
-            if (seg->dato.datosConsumidos > c.datosConsumidos)
-            {
-                printf("ENTRE AL IF\n");
-                nodo *nuevo = crearNodo(c);
-                // nuevo->siguiente = seg;
-                listaAuxiliar = agregarFinal(listaAuxiliar, nuevo);
-            }
-            printf("Me rompi aca?\n");
             listaAuxiliar = agregarFinal(listaAuxiliar, crearNodo(seg->dato));
-            printf("Me rompi aca de nuevo?\n");
-            mostrarLista(listaAuxiliar);
             seg = seg->siguiente;
+        }
+        // Una vez que encontramos la posición donde corresponde nuestro nodo
+        // lo agregamos a la lista
+        listaAuxiliar = agregarFinal(listaAuxiliar, crearNodo(c));
 
-            // 1 2 3 4 5 9 <- 5
-            // 1 2 3 4 5 9
-            // (5) 9
-            // estoy en el 4
-            // si el siguiente del 4, es mayor al que yo quiero ingresar
-            // entonces, tengo que poner mi valor después del 4 y antes del siguiente del 4
-            // if (seg->siguiente != NULL && seg->siguiente->dato.datosConsumidos > c.datosConsumidos)
-            // {
-            //     printf("Me rompere aca?\n");
-            //     nodo *siguienteViejo = seg->siguiente;
-            //     nodo *nuevo = crearNodo(c);
-            //     seg->siguiente = nuevo;
-            //     nuevo->siguiente = siguienteViejo;
-            //     listaAuxiliar = agregarFinal(listaAuxiliar, seg);
-            // }
-            // else
-            // {
-            //     printf("O aca?\n");
-            //     listaAuxiliar = agregarFinal(listaAuxiliar, seg);
-            //     mostrarLista(listaAuxiliar);
-            //     seg = seg->siguiente;
-            // }
-            // printf("Lista Auxiliar %d\n", i++);
-            // mostrarLista(listaAuxiliar);
+        // Si queda al menos un nodo, lo agregamos a la lista
+        // Como este nodo incluye los que siguen, no es necesario repetir la función.
+        if (seg != NULL)
+        {
+            listaAuxiliar = agregarFinal(listaAuxiliar, seg);
         }
     }
 
