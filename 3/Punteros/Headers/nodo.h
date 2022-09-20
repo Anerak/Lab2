@@ -13,10 +13,11 @@ typedef struct nodo
 
 nodo *inicLista();
 nodo *crearNodo(stPersona dato);
-nodo *agregarPrincipio(nodo *l, nodo *n);
-void mostrarLista(nodo *n);
-nodo * final(nodo *l, nodo *n);
-nodo *agregarFinal(nodo *l, nodo *n);
-nodo *leerDatos(nodo *l);
+void agregarPrincipio(nodo **l, nodo *n);
+void mostrarLista(nodo *l);
+void agregarFinal(nodo **l, nodo *n);
+void leerDatos(nodo **l);
+stPersona verPrimero(nodo *p);
+nodo *borrarPrimero(nodo *p);
 
 #endif

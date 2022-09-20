@@ -84,3 +84,19 @@ void mostrarLista(nodo *l)
     //     mostrarLista(n->siguiente);
     // }
 }
+
+nodo *leerDatos(nodo *l)
+{
+    FILE *a = fopen("./personas.dat", "r+b");
+    stPersona p;
+    if (a == NULL)
+        return l;
+
+    while (fread(&p, sizeof(stPersona), 1, a) > 0)
+    {
+        l = agregarFinal(l, crearNodo(p));
+    }
+
+    fclose(a);
+    return l;
+}

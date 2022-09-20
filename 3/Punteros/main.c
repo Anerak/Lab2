@@ -3,7 +3,7 @@
 #include <time.h>
 #include ".\Headers\nodo.h"
 #include <string.h>
-#include ".\Headers\pila.h"
+// #include ".\Headers\pila.h"
 
 void guardarPersonas();
 int main()
@@ -12,13 +12,20 @@ int main()
     srand(time(NULL));
 
     nodo *lista;
-    inicPila(&lista);
-    printf("%d\n", pilaVacia(&lista));
-    leer(&lista);
-    printf("%d\n", pilaVacia(&lista));
-    leer(&lista);
-    desapilar(&lista);
-    mostrar(&lista);
+    lista = inicLista();
+
+    agregarPrincipio(&lista, crearNodo(personaRandom()));
+
+    agregarPrincipio(&lista, crearNodo(personaRandom()));
+
+    agregarPrincipio(&lista, crearNodo(personaRandom()));
+
+    mostrarLista(lista);
+    printf("\n- - - - - - Hola - - - - -\n");
+
+    agregarFinal(&lista, crearNodo(personaRandom()));
+
+    mostrarLista(lista);
 
     return 0;
 }

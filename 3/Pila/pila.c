@@ -18,25 +18,14 @@ int pilaVacia(nodo **p)
 
 stPersona tope(nodo **p)
 {
-    stPersona d = (*p)->dato;
-
-    mostrarPersona(d);
-
-    return d;
+    return verPrimero(*p);
 }
 
 stPersona desapilar(nodo **p)
 {
-    stPersona d = (*p)->dato;
+    stPersona d = verPrimero(*p);
 
-    if ((*p)->siguiente != NULL)
-    {
-        *p = (*p)->siguiente;
-    }
-    else
-    {
-        *p = NULL;
-    }
+    *p = borrarPrimero(*p);
 
     return d;
 }

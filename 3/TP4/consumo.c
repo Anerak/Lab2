@@ -18,8 +18,21 @@ stConsumos consumoRandom()
 
     c.anio = (rand() % 30) + 2000;
     c.datosConsumidos = rand() % 2000;
-    c.dia = (rand() % 31) + 1;
     c.mes = (rand() % 12) + 1;
+
+    if (c.mes == 2)
+    {
+        c.dia = (rand() % 28) + 1;
+    }
+    else if (c.mes == 1 || c.mes == 3 || c.mes == 5 || c.mes == 7 || c.mes == 8 || c.mes == 10 || c.mes == 12)
+    {
+        c.dia = (rand() % 31) + 1;
+    }
+    else
+    {
+        c.dia = (rand() % 30) + 1;
+    }
+
     c.idCliente = rand() % 4;
     c.baja = rand() % 2;
 

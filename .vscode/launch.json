@@ -9,7 +9,8 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
-            "cwd": "${fileDirname}"
+            "cwd": "${fileDirname}",
+            "externalConsole": true,
         }
     ]
 }

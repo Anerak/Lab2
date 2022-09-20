@@ -15,47 +15,28 @@ nodo *crearNodo(stPersona dato)
     return n;
 }
 
-nodo *agregarPrincipio(nodo *l, nodo *n)
+void agregarPrincipio(nodo **l, nodo *n)
 {
-    n->siguiente = l;
-    return n;
+    n->siguiente = (*l);
+    (*l) = n;
 }
 
-nodo *agregarFinal(nodo *l, nodo *n)
+void agregarFinal(nodo **l, nodo *n)
 {
-    if (l == NULL)
+    if (*l == NULL)
     {
-        l = n;
-    }
-
-    nodo *seg = l;
-    while (seg->siguiente != NULL)
-    {
-        seg = seg->siguiente;
-    }
-
-    seg->siguiente = n;
-
-    return l;
-}
-
-nodo * final(nodo *l, nodo *n)
-{
-    if (l == NULL)
-    {
-        l = n;
-    }
-
-    if (l->siguiente != NULL)
-    {
-        l->siguiente = final(l->siguiente, n);
+        *l = n;
     }
     else
     {
-        l->siguiente = n;
-    }
+        nodo *seg = *l;
+        while (seg->siguiente != NULL)
+        {
+            seg = seg->siguiente;
+        }
 
-    return l;
+        seg->siguiente = n;
+    }
 }
 
 void mostrarLista(nodo *l)
@@ -74,20 +55,20 @@ void mostrarLista(nodo *l)
     // }
 }
 
-nodo *leerDatos(nodo *l)
+void leerDatos(nodo **l)
 {
     FILE *a = fopen("./personas.dat", "r+b");
     stPersona p;
-    if (a == NULL)
-        return l;
-
-    while (fread(&p, sizeof(stPersona), 1, a) > 0)
+    if (a != NULL)
     {
-        l = agregarFinal(l, crearNodo(p));
-    }
+        while (fread(&p, sizeof(stPersona), 1, a) > 0)
+        {
+            agregarFinal(l, crearNodo(p));
+        }
 
-    fclose(a);
-    return l;
+        fclose(a);
+    }
+    // return l;
 }
 
 stPersona verPrimero(nodo *p)

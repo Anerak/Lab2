@@ -18,5 +18,7 @@ void mostrarLista(nodo *l);
 nodo * final(nodo *l, nodo *n);
 nodo *agregarFinal(nodo *l, nodo *n);
 nodo *leerDatos(nodo *l);
+stPersona verPrimero(nodo *p);
+nodo *borrarPrimero(nodo *p);
 
 #endif
