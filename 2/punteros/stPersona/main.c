@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include ".\nodo.h"
+//#include ".\nodo.h"
 
 typedef struct stPersona
 {
@@ -17,7 +17,7 @@ void cargarArreglo(stPersona ps[], int v);
 int contarGenero(stPersona ps[], int v, char genero);
 stPersona *copiarArreglo(stPersona ps[], int v, char genero, int *nuevoValidos);
 void ordenarArreglo(stPersona ps[], int v);
-
+stPersona *crearArregloGenero(stPersona A[], int v, char g, int *validosB);
 /*
 a. Crear un arreglo estático de 30 elementos de esta estructura y cargarlo mediante una función.
 b. Hacer una función que cuente la cantidad de un género determinado.
@@ -34,15 +34,15 @@ int main()
     mostrarPersonas(personas, validos);
     printf("\nCant genero: %d\n", contarGenero(personas, validos, 'f'));
 
-    int nuevoValidos;
-    stPersona *unGenero = copiarArreglo(personas, validos, 'f', &nuevoValidos);
+    int nuevoValidos = 0;
+    stPersona *unGenero = crearArregloGenero(personas, validos, 'f', &nuevoValidos);
 
     printf("\n---Despues de copiar---\n");
     mostrarPersonas(unGenero, nuevoValidos);
 
-    printf("\n---Ordenado con seleccion---\n");
-    ordenarArreglo(unGenero, nuevoValidos);
-    mostrarPersonas(unGenero, nuevoValidos);
+    // printf("\n---Ordenado con seleccion---\n");
+    // ordenarArreglo(unGenero, nuevoValidos);
+    // mostrarPersonas(unGenero, nuevoValidos);
 
     return 0;
 }
@@ -80,6 +80,25 @@ int posicionMenor(stPersona ps[], int v, int pos)
     return posMenor;
 }
 
+// stPersona*crearArregloGenero(stPersona A[], int v char g, )
+stPersona *crearArregloGenero(stPersona A[], int v, char g, int *validosB)
+{
+    int i = 0, cant = 0;
+    cant = contarGenero(A, v, g);
+    stPersona *B = (stPersona *)malloc(sizeof(stPersona) * cant);
+
+    //*validosB = 0;
+    while (i < v)
+    {
+        if (A[i].genero == g)
+        {
+            B[*validosB] = A[i];
+            (*validosB)++;
+        }
+        i++;
+    }
+    return B;
+}
 stPersona *copiarArreglo(stPersona ps[], int v, char genero, int *nuevoValidos)
 {
     *nuevoValidos = contarGenero(ps, v, genero);

@@ -5,7 +5,7 @@
 
 void mostrarPersona(stPersona p)
 {
-    printf("ID: %d | %s | %d | %c\n", p.id, p.nombre, p.edad, p.genero);
+    printf("%s | %d | %c\n", p.nombre, p.edad, p.genero);
 }
 
 stPersona personaRandom()
@@ -22,7 +22,29 @@ stPersona personaRandom()
     p.genero = (rand() % 2 == 0) ? 'f' : 'm';
 
     // strcpy(p.nombre, nombres[rand() % 8]);
-    strcpy(p.nombre, p.genero == 'f' ? "Pepa" : "Pepe");
+    strcpy(p.nombre, "Pepe");
+
+    return p;
+}
+
+stPersona cargarPersona()
+{
+    static int id = 0;
+
+    stPersona p;
+    p.id = id++;
+
+    fflush(stdin);
+    printf("\nNombre: ");
+    gets(p.nombre);
+
+    fflush(stdin);
+    printf("\nEdad: ");
+    scanf("%d", &p.edad);
+
+    fflush(stdin);
+    printf("\nGenero: ");
+    scanf("%c", &p.genero);
 
     return p;
 }

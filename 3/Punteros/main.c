@@ -14,16 +14,7 @@ int main()
     nodo *lista;
     lista = inicLista();
 
-    agregarPrincipio(&lista, crearNodo(personaRandom()));
-
-    agregarPrincipio(&lista, crearNodo(personaRandom()));
-
-    agregarPrincipio(&lista, crearNodo(personaRandom()));
-
-    mostrarLista(lista);
-    printf("\n- - - - - - Hola - - - - -\n");
-
-    agregarFinal(&lista, crearNodo(personaRandom()));
+    leerDatos(&lista);
 
     mostrarLista(lista);
 
